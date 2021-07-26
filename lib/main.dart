@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'model/lesson.dart';
+import 'detail_page.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -30,6 +33,14 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+  //late List lessons;
+  late List<Lesson> lessons;
+  @override
+  void initState() {
+    // TODO: implement initState
+    lessons = getLessons();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +78,7 @@ class _ListPageState extends State<ListPage> {
         child: ListView.builder(
           scrollDirection: Axis.vertical,
             shrinkWrap: true,
-            itemCount: 10,
+            itemCount: lessons.length,
             itemBuilder: (context , index){
             return Card(
               elevation: 8.0,
@@ -87,15 +98,36 @@ class _ListPageState extends State<ListPage> {
                     ),
                     child: Icon(Icons.autorenew, color: Colors.white,),
                   ),
-                  title: Text("Introduction to Driving",
+                  title: Text(lessons[index].title,
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                   subtitle: Row(
                     children: [
-                      Icon(Icons.linear_scale, color: Colors.yellowAccent,),
-                      Text(" Intermediate", style: TextStyle(color: Colors.white),)
+                      // Icon(Icons.linear_scale, color: Colors.yellowAccent,),
+                      // Text(" Intermediate", style: TextStyle(color: Colors.white),)
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          child: LinearProgressIndicator(
+                            backgroundColor: Color.fromRGBO(209,224,224,0.2,),
+                            value: lessons[index].indicatorValue,
+                            valueColor: AlwaysStoppedAnimation(Colors.green),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Text(lessons[index].level, style: TextStyle(color: Colors.white),),
+                        ),
+                      ),
                     ],
                   ),
                   trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0,),
+                  onTap: (){
+                    Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => DetailPage(lesson: lessons[index]),));
+                  },
                 ),
               ),
             );
@@ -103,6 +135,60 @@ class _ListPageState extends State<ListPage> {
       ),
     );
   }
+}
+
+List <Lesson> getLessons(){
+  return[
+    Lesson(
+      title: "Introduction to Driving",
+      level: "Beginner",
+      indicatorValue: 0.33,
+      price: 20,
+      content: "Start by taking a couple of minutes to read the info , Start by taking a couple of minutes to read the info , Start by taking a couple of minutes to read the info , Start by taking a couple of minutes to read the info"
+    ),
+    Lesson(
+        title: "Introduction to Driving 2",
+        level: "Beginner",
+        indicatorValue: 0.33,
+        price: 2,
+        content: "Start by taking a couple of minutes to read the info"
+    ),
+    Lesson(
+        title: "Introduction to Driving 3",
+        level: "Beginner",
+        indicatorValue: 0.33,
+        price: 50,
+        content: "Start by taking a couple of minutes to read the info"
+    ),
+    Lesson(
+        title: "Introduction to Driving 4",
+        level: "Beginner",
+        indicatorValue: 0.33,
+        price: 20,
+        content: "Start by taking a couple of minutes to read the info"
+    ),
+    Lesson(
+        title: "Introduction to Driving 5",
+        level: "Beginner",
+        indicatorValue: 0.33,
+        price: 20,
+        content: "Start by taking a couple of minutes to read the info"
+    ),
+    Lesson(
+        title: "Introduction to Driving 6",
+        level: "Beginner",
+        indicatorValue: 0.33,
+        price: 20,
+        content: "Start by taking a couple of minutes to read the info"
+    ),
+    Lesson(
+        title: "Introduction to Driving 7",
+        level: "Beginner",
+        indicatorValue: 0.33,
+        price: 20,
+        content: "Start by taking a couple of minutes to read the info"
+    ),
+  ];
 }
 
 
